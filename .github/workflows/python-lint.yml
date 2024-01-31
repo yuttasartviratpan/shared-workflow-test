@@ -1,0 +1,90 @@
+name: Python Lint
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        required: false
+        default: "3.11"
+        type: string
+      flake8_version:
+        required: false
+        default: "6.1.0"
+        type: string
+      isort_version:
+        required: false
+        default: "5.12.0"
+        type: string
+      black_version:
+        required: false
+        default: "23.10.1"
+        type: string
+      flake8_docstrings:
+        required: false
+        default: false
+        type: boolean
+      flake8_annotations:
+        required: false
+        default: true
+        type: boolean
+      mccabe:
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  isort:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ inputs.python_version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python_version }}
+      - name: Lint with isort
+        uses: isort/isort-action@master
+        with:
+          isortVersion: ${{ inputs.isort_version }}
+
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ inputs.python_version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python_version }}
+      - name: Lint with black
+        uses: psf/black@stable
+        with:
+          version: ${{ inputs.black_version }}
+
+  flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ inputs.python_version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python_version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip freeze | grep '^\(flake8-\|mccabe\)' | xargs -r pip uninstall -y
+          pip install flake8==6.1.0
+      - name: Install flake8 annotations
+        if: ${{ inputs.flake8_annotations }}
+        run: |
+          pip install flake8-annotations
+      - name: Install flake8 docstring
+        if: ${{ inputs.flake8_docstrings }}
+        run: |
+          pip install flake8-docstrings
+      - name: Install flake8 mccabe
+        if: ${{ inputs.mccabe }}
+        run: |
+          pip install mccabe
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --max-complexity=10 --max-line-length=127 --statistics

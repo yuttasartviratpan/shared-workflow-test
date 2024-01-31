@@ -1,0 +1,74 @@
+name: Python Poetry Test and Sonarqube
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        required: false
+        default: "3.11"
+        type: string
+      poetry_version:
+        required: false
+        default: "1.6.1"
+        type: string
+      project_key:
+        required: true
+        type: string
+      extra_registry_name:
+        required: false
+        default: ""
+        type: string
+
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      extra_registry_username:
+        required: false
+      extra_registry_password:
+        required: false
+
+jobs:
+  test-and-sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python_version }}
+
+    - name: Install poetry ${{ inputs.poetry_version }}
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry==${{ inputs.poetry_version }}
+        poetry config installer.max-workers 10 --local
+
+    - name: Setup Extra Registry
+      if: ${{ inputs.extra_registry_name }}
+      run : |
+        poetry config --local http-basic.${{ inputs.extra_registry_name }} ${{ secrets.extra_registry_name }} ${{ secrets.extra_registry_password }}
+
+    - name: Install dependencies
+      run: |
+        poetry install
+
+    - name: Test with Pytest
+      run: poetry run pytest
+
+    - name: SonarCloud Scan
+      # You may pin to the exact commit or the version.
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_HOST_URL: https://sonarcloud.io
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=${{ inputs.project_key }}
+          -Dsonar.organization=Domo
+          -Dsonar.python.version=${{ inputs.python_version }}
+          -Dsonar.qualitygate.wait=true
+

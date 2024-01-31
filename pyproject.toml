@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "shared_workflow_lab"
+version = "0.1.0"
+description = ""
+authors = ["Domo"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+flake8 = "^7.0.0"
+pytest = "^7.4.4"
+pytest-cov = "^4.1.0"
+ipykernel = "^6.29.0"
+flake8-annotations = "^3.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
