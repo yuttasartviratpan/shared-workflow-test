@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "shared_workflow_lab"
+name = "shared_workflow_test"
 version = "0.1.0"
 description = ""
 authors = ["Domo"]
