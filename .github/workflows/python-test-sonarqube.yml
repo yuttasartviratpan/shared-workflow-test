@@ -68,7 +68,7 @@ jobs:
       with:
         args: >
           -Dsonar.projectKey=${{ inputs.project_key }}
-          -Dsonar.organization=Domo
+          -Dsonar.organization=yuttasartviratpan
           -Dsonar.python.version=${{ inputs.python_version }}
           -Dsonar.qualitygate.wait=true
 
