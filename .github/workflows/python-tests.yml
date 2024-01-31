@@ -5,7 +5,7 @@ on: [push]
 env:
   PYTHON_VERSION: 3.12
   POETRY_VERSION: 1.7.1
-  PROJECT_KEY: yuttasartviratpan_shared-workflow-lab
+  PROJECT_KEY: yuttasartviratpan_shared-workflow-test
   AZURE_WEBAPP_NAME: your-app-name
 
 jobs:

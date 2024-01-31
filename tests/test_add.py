@@ -1,4 +1,4 @@
-import shared_workflow_runner
+import shared_workflow_test
 
 
 def test_sanity():
@@ -6,4 +6,4 @@ def test_sanity():
 
 
 def test_add():
-    assert shared_workflow_runner.add_numbers(1, 2) == 3
+    assert shared_workflow_test.add_numbers(1, 2) == 3
