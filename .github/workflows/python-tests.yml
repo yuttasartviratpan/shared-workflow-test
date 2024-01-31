@@ -6,7 +6,7 @@ env:
   PYTHON_VERSION: 3.12
   POETRY_VERSION: 1.7.1
   PROJECT_KEY: yuttasartviratpan_shared-workflow-test
-  AZURE_WEBAPP_NAME: your-app-name
+  AZURE_WEBAPP_NAME: shared-workflow-test
 
 jobs:
   get-env:
