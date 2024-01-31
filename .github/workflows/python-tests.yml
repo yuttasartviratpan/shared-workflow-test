@@ -35,7 +35,7 @@ jobs:
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  deploy:
+  azure-devops:
     needs:
       - get-env
       - lint
