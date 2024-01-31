@@ -21,13 +21,13 @@ jobs:
 
   lint:
     needs: get-env
-    uses: yuttasartviratpan/shared-workflow-lab/.github/workflows/python-lint.yml@main
+    uses: yuttasartviratpan/shared-workflow-test/.github/workflows/python-lint.yml@main
     with:
       python_version: ${{ needs.get-env.outputs.PYTHON_VERSION }}
 
   test-and-sonarqube:
     needs: get-env
-    uses: yuttasartviratpan/shared-workflow-lab/.github/workflows/python-test-sonarqube.yml@main
+    uses: yuttasartviratpan/shared-workflow-test/.github/workflows/python-test-sonarqube.yml@main
     with:
       python_version: ${{ needs.get-env.outputs.PYTHON_VERSION }}
       poetry_version: ${{ needs.get-env.outputs.POETRY_VERSION }}
