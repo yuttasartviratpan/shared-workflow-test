@@ -35,4 +35,16 @@ jobs:
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-
+  deploy:
+    needs:
+      - get-env
+      - lint
+      - test-and-sonarqube
+    uses: yuttasartviratpan/shared-workflow-test/.github/workflows/python-deploy.yml@main
+    with:
+      python_version: ${{ needs.get-env.outputs.PYTHON_VERSION }}
+      poetry_version: ${{ needs.get-env.outputs.POETRY_VERSION }}
+      project_key: ${{ needs.get-env.outputs.PROJECT_KEY }}
+      azure_webapp_name: ${{ needs.get-env.outputs.AZURE_WEBAPP_NAME }}
+    secrets:
+      AZURE_PUBLISHED_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_121271E473FB4C4FBDB9B3C1BA0DD5A6 }}
