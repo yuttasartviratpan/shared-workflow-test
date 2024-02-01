@@ -50,7 +50,7 @@ Ironically in pycharm test configuration add `--no-cov` to `Additional Arguments
 ## Env required:
 - PYTHON_VERSION: version of python your project is using
 - POETRY_VERSION: version of poetry your project would like to/is using (check compatibility before specify)
-- PROJECT_KEY: directory of your project, format: <(username/organisation)>_<repository_name>
+- PROJECT_KEY: directory of your project, format: <(username/organisation_name)>_<repository_name>
 - AZURE_WEBAPP_NAME: the name of your project in Azure, should set to match the created Web App in Azure's App Service
 
 ## Secrets required:
